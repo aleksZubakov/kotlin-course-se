@@ -16,9 +16,9 @@ logical_expr
     | atom #LogicalAtomExpr;
 
 atom
-    : ID
+    : func_invoke
     | literal
-    | func_invoke;
+    | ID;
 
 logical_op: AND | OR;
 compare_op: EQUAL | NOTEQUAL | GREATER | GREQUAL | LESS | LEQUAL;
@@ -52,7 +52,8 @@ var_assign : ID '=' expr ;
 
 // STATEMENT = FUNCTION | VARIABLE | EXPRESSION | WHILE | IF | ASSIGNMENT | RETURN
 stmt
-    : func_invoke
+    : func_def
+    | func_invoke
     | var_def
     | expr
     | while_stmt

@@ -120,8 +120,9 @@ class AntlrToAstVisitor : FunParserBaseVisitor<IRNode>() {
     }
 
     override fun visitStmt(ctx: FunParser.StmtContext): IRNode = when {
-        ctx.expr() != null -> ctx.expr().accept(this)
         ctx.func_invoke() != null -> ctx.func_invoke().accept(this)
+        ctx.func_def() != null -> ctx.func_def().accept(this)
+        ctx.expr() != null -> ctx.expr().accept(this)
         ctx.if_stmt() != null -> ctx.if_stmt().accept(this)
         ctx.return_stmt() != null -> ctx.return_stmt().accept(this)
         ctx.var_assign() != null -> ctx.var_assign().accept(this)
