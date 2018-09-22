@@ -17,9 +17,24 @@ class FunctionCall(val name: Identifier, val parameters: List<Expression>) : Exp
             visitor.visitFunctionCall(this, context)
 }
 
-class Identifier(val id: String) : Expression() {
+data class Identifier(val id: String) : Expression() {
     override fun <T, D> accept(visitor: IRVisitor<T, D>, context: T): D =
             visitor.visitIdentifier(this, context)
+
+    override fun toString(): String = id
+
+    override fun hashCode(): Int = id.hashCode()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Identifier
+
+        if (id != other.id) return false
+
+        return true
+    }
 }
 
 class Literal(val value: Int) : Expression() {
