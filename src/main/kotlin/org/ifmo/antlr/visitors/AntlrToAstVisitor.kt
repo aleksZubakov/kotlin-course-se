@@ -147,8 +147,8 @@ class AntlrToAstVisitor : FunParserBaseVisitor<IRNode>() {
     override fun visitIf_stmt(ctx: FunParser.If_stmtContext): IRNode {
         val expr = visitExpr(ctx.expr())
         val body = visitBlock_with_braces(ctx.if_body)
-
-        return If(expr, body)
+        val elseBody = ctx.else_body?.let { visitBlock_with_braces(it) }
+        return If(expr, body, elseBody)
     }
 
     override fun visitWhile_stmt(ctx: FunParser.While_stmtContext): IRNode {

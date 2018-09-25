@@ -19,7 +19,7 @@ class While(val condition: Expression, val block: Block) : IRNode {
     }
 }
 
-class If(val condition: Expression, val block: Block) : IRNode {
+class If(val condition: Expression, val block: Block, val elseBlock: Block? = null) : IRNode {
     override fun <T, D> accept(visitor: IRVisitor<T, D>, context: T): D {
         return visitor.visitIf(this, context)
     }
