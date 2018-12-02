@@ -14,9 +14,9 @@ class TexTest {
 \begin{document}
 \begin{frame}
 \frametitle{frametitle}[arg1=arg2]\begin{itemize}
-\itemtest1 text
-\itemtest2 text
-\itemtest3 text
+\item test1 text
+\item test2 text
+\item test3 text
 \end{itemize}
 \begin{pyglist}
 |val a = 1
@@ -37,6 +37,9 @@ class TexTest {
                         val rows = listOf("test1", "test2", "test3")
                         for (row in rows) {
                             item { +"$row text" }
+                            item { +"$row text" }
+                            item { +"$row text" }
+//                            item { item {} }
                         }
                     }
 
@@ -66,9 +69,9 @@ class TexTest {
 \begin{document}
 \begin{frame}
 \frametitle{frametitle}[arg1=arg2]\begin{itemize}
-\itemtest1 text
-\itemtest2 text
-\itemtest3 text
+\item test1 text
+\item test2 text
+\item test3 text
 \end{itemize}
 \begin{pyglist}
 |val a = 1
@@ -81,7 +84,7 @@ class TexTest {
 
 
         val byteArrayOutputStream = ByteArrayOutputStream()
-        val res = document {
+        document {
             documentClass("beamer")
 
             usepackage("babel", "russian" /* varargs */)
@@ -106,6 +109,7 @@ class TexTest {
             }
 
         }.to(byteArrayOutputStream)
+        print(byteArrayOutputStream.toString())
 
         assertEquals(data, byteArrayOutputStream.toString())
 

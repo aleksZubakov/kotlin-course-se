@@ -14,27 +14,36 @@ enum class Align {
     }
 }
 
+
 @TexMarker
-class Itemize<T>(private val writer: Writer<T>) : Body<T>(writer) {
+class Itemize<T>(private val writer: Writer<T>) {
     private fun String.write() = writer.write(this)
 
-    fun item(init: Body<T>.() -> Unit) {
-        "\\item".write()
-        init()
+    fun item(init: Item<T>.() -> Unit) {
+        "\\item ".write()
+        Item(writer).init()
     }
 }
 
+
+
 @TexMarker
-private class Tag<T>(
+open class Tag<T>(
         val tag: String,
         private val writer: Writer<T>) {
     operator fun String.unaryPlus() = "${this.trimIndent()}\n".write()
 
-    private fun String.write() = writer.write(this)
-    fun write(body: Tag<T>.() -> Unit) {
+    protected fun String.write() = writer.write(this)
+    open fun write(body: Tag<T>.() -> Unit) {
         "\\begin{$tag}\n".write()
         body()
         "\\end{$tag}\n".write()
+    }
+}
+
+class Item<T>(private val writer: Writer<T>): Tag<T>("item", writer) {
+    override fun write(body: Tag<T>.() -> Unit) {
+        body()
     }
 }
 
