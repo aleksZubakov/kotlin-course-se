@@ -15,6 +15,7 @@ interface IRVisitor<T, D> {
     fun visitReturn(`return`: Return, context: T): D
     fun visitOperator(operator: Operator, context: T): D
 
+    fun visitPrintln(println: Println, context: T): D
 
     /* expressions */
     fun visitFunctionCall(functionCall: FunctionCall, context: T): D

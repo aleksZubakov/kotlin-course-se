@@ -113,4 +113,5 @@ class ErrorChecker : IRVisitor<EvalContext, Unit> {
 
     override fun visitOperator(operator: Operator, context: EvalContext) {}
     override fun visitLiteral(literal: Literal, context: EvalContext) {}
+    override fun visitPrintln(println: Println, context: EvalContext) {}
 }

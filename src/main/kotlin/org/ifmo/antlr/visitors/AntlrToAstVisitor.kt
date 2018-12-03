@@ -160,11 +160,16 @@ class AntlrToAstVisitor : FunParserBaseVisitor<IRNode>() {
 
     override fun visitFunc_invoke(ctx: FunParser.Func_invokeContext): Expression {
         val id = ctx.ID().toIdentifier()
+
         val parameters = ctx.func_arguments().expr().map {
             visitExpr(it)
         }
 
-        return FunctionCall(id, parameters)
+        return if (id.id  == "println") {
+            Println(parameters)
+        } else {
+            FunctionCall(id, parameters)
+        }
     }
 
     override fun visitBlock_with_braces(ctx: FunParser.Block_with_bracesContext): Block =

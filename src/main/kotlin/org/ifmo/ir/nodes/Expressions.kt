@@ -12,6 +12,12 @@ class BinaryExpression(val leftOperand: Expression,
             visitor.visitBinaryExpression(this, context)
 }
 
+class Println(val params: List<Expression>): Expression() {
+    override fun <T, D> accept(visitor: IRVisitor<T, D>, context: T): D {
+        return visitor.visitPrintln(this, context)
+    }
+}
+
 class FunctionCall(val name: Identifier, val parameters: List<Expression>) : Expression() {
     override fun <T, D> accept(visitor: IRVisitor<T, D>, context: T): D =
             visitor.visitFunctionCall(this, context)

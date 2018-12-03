@@ -2,6 +2,7 @@ package org.ifmo.ir.visitor
 
 import org.ifmo.ir.nodes.*
 import org.ifmo.ir.nodes.Function
+import java.io.OutputStream
 
 data class InterpreterContext(
         val functionMap: Map<Identifier, MutableSet<Function>> = mapOf(),
@@ -26,7 +27,7 @@ data class InterpreterContext(
         val returned: Boolean = false
 )
 
-class Interpreter : IRVisitor<InterpreterContext, InterpreterContext> {
+class Interpreter(val outputStream: OutputStream) : IRVisitor<InterpreterContext, InterpreterContext> {
     private fun InterpreterContext.unpackScopeTableToMutable() =
             Pair(functionMap.toMutableMap(), variableMap.toMutableMap())
 
@@ -248,5 +249,14 @@ class Interpreter : IRVisitor<InterpreterContext, InterpreterContext> {
                     evalResult
             )
         }
+    }
+
+    override fun visitPrintln(println: Println, context: InterpreterContext): InterpreterContext {
+        for (v in println.params) {
+            val accept = v.accept(this, context)
+            outputStream.write(accept.evaluationResult.toString().toByteArray())
+        }
+        outputStream.write("\n".toByteArray())
+        return context
     }
 }
